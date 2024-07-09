@@ -66,3 +66,12 @@
 	-15. Program.cs(uygulamanın ana giriş noktası) altına bu veri yaratma kısmını ekleyelim. Ve çalıştıralım.
 
 	Şu an normal bir şekilde uygulama çalıştı. Geri planda VT mizde veriler oluştu
+
+--------------------------------------------------------------------------------------
+Step02 - Controllers/ Index Views
+
+	Not : 
+		. Solution içinde Step02 isimli yeni proje açalım.
+		. Step01 içindeki yapılanları bu projeye kopyalayalım.	(Controller,Data,Migrations,Models,ProjectItems,Views,appsettings.json,Program.cs)
+		. Projenin tümünün uyumlu olabilmesi için gerekli Namespace,Assembly ayarlamaları(eTickets olocak şekilde)
+		. EF paketlerini yükleyelim. Copy sırasında gelmiyor o yüzden
