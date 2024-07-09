@@ -7,13 +7,16 @@ namespace eTickets.Models
         [Key]
         public int Id { get; set; }
 
+        [Display(Name = "Logo")]
         public string? Logo { get; set; }
 
+        [Display(Name = "Cinema Name")]
         public string? Name { get; set; }
 
+        [Display(Name = "Description")]
         public string? Description { get; set; }
 
-        //5.1 Relations
-        public List<Movie>? Movies { get; set; } // Bir cinemada birçok film olabilir
+        // Relations
+        public List<Movie>? Movies { get; set; } // Bu sinemada oynayan filmler
     }
 }

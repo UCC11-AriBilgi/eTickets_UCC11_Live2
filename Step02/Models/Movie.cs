@@ -9,34 +9,43 @@ namespace eTickets.Models
         [Key]
         public int Id { get; set; }
 
+        [Display(Name = "Movie Name")]
         public string? Name { get; set; }
 
+        [Display(Name = "Description")]
         public string? Description { get; set; }
 
-        public double? Price { get; set; }
+        [Display(Name = "Price")]
+        public double Price { get; set; }
 
+        [Display(Name = "Poster")]
         public string? ImageURL { get; set; }
 
-        public DateTime? StartDate { get; set; }
+        [Display(Name = "Start Date")]
+        public DateTime StartDate { get; set; }
 
-        public DateTime? EndDate { get; set; }
+        [Display(Name = "End Date")]
+        public DateTime EndDate { get; set; }
 
-        public MovieCategory? MovieCategory { get; set; }
+        [Display(Name = "Category")]
+        public MovieCategory? MovieCategory { get; set; } // Burayı besleyecek yer MovieCategory enum'ı
 
-        //5.1 Relations
-        //(Many to Many)
-        public List<Actor_Movie>? Actors_Movies { get; set; }
+        // Relations
+        // Many-to-Many
 
-        //Cinema
-        // One to Many
+        public List<Actor_Movie> Actors_Movies { get; set; }
+
+        // Cinema
+        // One-to-Many
         public int CinemaId { get; set; }
-        [ForeignKey("CinemaId")] // Hangi field ile bağlı olduğunu belirtiyoruz
+        [ForeignKey("CinemaId")]
         public Cinema? Cinema { get; set; }
 
-        //Producer
-        // One to Many
+        // Producer
+        // One-to-Many
         public int ProducerId { get; set; }
-        [ForeignKey("ProducerId")] // Hangi field ile bağlı olduğunu belirtiyoruz
-        public Producer? Producer { get; set; }
+        [ForeignKey("ProducerId")]
+        public Producer? Producer { get; set;}
+
     }
 }

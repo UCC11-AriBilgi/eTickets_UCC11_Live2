@@ -1,8 +1,8 @@
+using eTickets.Models;
 using Microsoft.AspNetCore.Mvc;
-using Step02.Models;
 using System.Diagnostics;
 
-namespace Step02.Controllers
+namespace eTickets.Controllers
 {
     public class HomeController : Controller
     {

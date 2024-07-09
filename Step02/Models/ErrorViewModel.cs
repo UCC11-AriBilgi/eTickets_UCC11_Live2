@@ -1,4 +1,4 @@
-namespace Step01.Models
+namespace eTickets.Models
 {
     public class ErrorViewModel
     {

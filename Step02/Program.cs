@@ -36,10 +36,14 @@ namespace Step01
 
             app.UseAuthorization();
 
-            app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+            //app.MapControllerRoute(
+            //    name: "default",
+            //    pattern: "{controller=Home}/{action=Index}/{id?}");
 
+            //19
+            app.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Movies}/{action=Index}/{id?}");
 
             // 15
             AppDbInitializer.Seed(app);

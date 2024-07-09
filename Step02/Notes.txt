@@ -75,3 +75,39 @@ Step02 - Controllers/ Index Views
 		. Step01 içindeki yapılanları bu projeye kopyalayalım.	(Controller,Data,Migrations,Models,ProjectItems,Views,appsettings.json,Program.cs)
 		. Projenin tümünün uyumlu olabilmesi için gerekli Namespace,Assembly ayarlamaları(eTickets olocak şekilde)
 		. EF paketlerini yükleyelim. Copy sırasında gelmiyor o yüzden
+
+	-16. Controllerların oluşturulması
+		(Herbir controller VT ile ilişkili olacağından context yapısını controller üzerine tanımlayalım.(injecting)
+		
+		ActorsController
+		ProducersController
+		CinemasController
+		MoviesController
+
+	-17. Controller lara bağlı şekilde ilk olarak Index View'ların oluşturulması.
+		Index view lar yapılacak olan VT üzerindeki ilgili tablolardan verileri çekip göstermek olacak.
+			! Viewlar oluşturulurken bazı hazır templateler var.Bunlardan yararlanabiliriz
+
+		Views\Actors\Index.cshtml
+		Views\Producers\Index.cshtml
+		Views\Cinemas\Index.cshtml
+		Views\Movies\Index.cshtml
+
+		Actors,Producers,Cinemas viewlarında Bootstrap yapısına göre değişiklikler. 
+
+		+ Views\Actors\Index.cshtml
+		+ Views\Producers\Index.cshtml
+		+ Views\Cinemas\Index.cshtml
+		- Views\Movies\Index.cshtml
+			Movie view için liste yapısı yerine Bootstrap yapısına göre düzenleme yapılacak. Bu yapıda "CardViews" yapısı kullanılacak. (Bootstrap Card yapısı)(Bazı yerlerde actionlar daha sonra doldurulmak için boş bırakıldı)
+
+		17.1. Bootstrap yapısına göre düzenlemeler yapılırken ekranda görülecek text bilgileri kendimize göre düzenleyebiliriz. (Default olarak modellerdeki Field Name leri getiriyor. Bunları kendimize göre düzenleyebiliriz) Bunun için ilgili modelimize gidip ayarlamaları orada yapmamız gerekiyor.
+
+		Model\Actor.cs
+		Model\Producer.cs
+		Model\Cinema.cs
+		Model\Movie.cs
+
+	-18. Şu ana kadar yapmış olduklarımıza manuel olarak eriştik. Artık bir menü yapısı geliştirelim. Bu menü yapısı için _Layout.cshtml üzerinde bazı değişiklikler yapacağız.
+
+	-19. Uygulamanın da giriş noktasını uygulama calıştığına ilk olarak Movies sayfanın gelmesini sağlayalım. Bunu yapabileceğimiz yer Program.cs giriş noktamız.
