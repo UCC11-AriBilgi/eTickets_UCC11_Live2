@@ -1,0 +1,172 @@
+﻿Step01 - Initialization
+
+	-1. Boş bir solution yaratılarak içinde Step01 adında bir proje yaratılması
+
+	-2. Proje adım adım ilerleme şeklinde yapılacağı için tüm solution Step01,Step02,Step03,.... yapısında ayrı ayrı proje adımları şeklinde olacaktır. Bunların birbirini takip edecek şekilde olabilmesi için projenin namespace ve assembly kısımlarının aynı olabilmesi için gerekli değişiklikleri Project/Properties kısmından eTickets olarak ayarlayalım
+
+	-3. Arka planda bir veritabanı olacağı ve CodeFirst yapısı kullanılacağı için gerekli NuGet paketlerinin yüklenmesi (EF).
+		. Microsoft.EntityFrameworkCore (VT <-> Code arası Tercüman)
+		. Microsoft.EntityFrameworkCore.SqlServer (SqlServer işlemleri için)
+		. Microsoft.EntityFrameworkCore.Design (Model tasarımlarının VT tarafında aktarılması için)
+		. Microsoft.EntityFrameworkCore.Tools (Yardımcı komutların bulunduğu)
+
+	-4. VT mizde olacak olan tabloların yani modellerimizin(class) oluşturulması. (\Models altına)
+		. Actor
+		. Producer
+		. Cinema
+		. Movie
+			Movie bilgilerimde Category türünü gösterecek bir alanımız olacak. Bunun tanımlarını ayrı bir class yapısı içinde tutalım(Enum yapısı). Bu tür tanımların da bulunduğu ayrı bir klasör yaratalım (\Data\Enums)
+
+	-5. Model İlişkilendirmeleri (Relations)
+		. Cinema <-->> Movie (bir Cinemada bir kaç Movie de oynayabilir)
+
+		. Producer <-->> Movie (bir Producer bir kaç Movie yaratmış/yönetmiş olabilir)
+
+		. Birçok Actor bir çok Movie de oynayabilir (many-to-many ilişki). Bundan dolayı Actor ile Movie class ları arasındaki böyle bir ilişkiyi tanımlayabilmek için ara bir modelden faydalanacağız (Actor_Movie.cs - Junction yapısı).
+			Movie <-->> Actor_Movie (bir Movie de bir çok Actor olabilir)
+			Actor <-->> Actor_Movie (bir Actor bir çok Movie de oynayabilir)
+
+		-5.1 Modellerimiz üzerinde ilişkilendirmelerin tanımlanması
+			
+			. Producer.cs --> Relations
+
+			. Cinema.cs --> Relations
+
+			. Actor.cs --> Relations
+
+			. Movies.cs --> Relations
+
+	-6. Uygulamanın DbContext yapısının boş olarak eklenmesi (Db-Code arasında tercuman)
+		. \Data\AppDbContext.cs.. ileryeyen adımlarda düzenleyeceğiz.
+
+	-7. Uygulamanın ana giriş noktası olan Program.cs classında bu DbContext yapısı tanımlayalım. İlerleyen adımlarda düzenleyeceğiz.
+
+	-8. AppDbContext.cs deki düzenlemeler.
+		Bu sınıf yaratılırken modellerimizin birbirine bağlanması, model yapı ve tanımlarının VT tarafındaki tablo karşılıklarının tanımlanması işlemleri. ??? Actor_Movie ??
+
+		Artık modellerimin VT tarafındaki karşılıkları olacak DbSet tanımlarının yapılması.
+
+	-9. VT ye bağlantı ve işlemler için bana bir ConnectionString gerekli.Bu ConnStr bilgisinin pek ortalarda gözükmesi pek istenmez. Bu yüzden daha gizli olan bir dosya var.(appsettings.json) ConnStr buraya yazılması daha doğru bir yol.
+
+	-10. Program.cs altında daha önceden belirtimini yapmış olduğumuz AddDbContext kısmında bu config değerlerini okuyacak ve öğrenecek gerekli düzenlemelerin yapılması
+
+	-11. Şimdi sıra geldi DB yapımızı ortaya(c# ca) çıkarmaya
+		Nuget PM console altında
+			PM>add-migration 01_Initial
+
+	-12. İşlem başarılı ise Migration isimli dizinin altında ilgili VT yapısının kodsal halini gösteren bir sınıf oluşuyor(Bunu kendi kullanıyor). Not: Daha henüz VT oluşmadı.
+
+	-13. VT nin yaratılabilmesi için PM Console dan
+		PM> update-database 01_Initial komutu çalıştırılır. VT boş olarak yaratılmış olur.
+
+	-14. Şu an VT yapı olarak oluştu . Ama içinde herhangi bir veri yok. Kod tarafından fake/dummy data yaratacak şekilde bazı düzenlemeler yapalım.
+		Data dizini altında AppDbInitializer.cs isminde bir class tanımlayalım
+		ve içine VT tarafındaki tablolarda bulunacak dummy verileri kodlayalım.
+
+	-15. Program.cs(uygulamanın ana giriş noktası) altına bu veri yaratma kısmını ekleyelim. Ve çalıştıralım.
+
+	Şu an normal bir şekilde uygulama çalıştı. Geri planda VT mizde veriler oluştu
+
+--------------------------------------------------------------------------------------
+Step02 - Controllers/ Index Views
+
+	Not : 
+		. Solution içinde Step02 isimli yeni proje açalım.
+		. Step01 içindeki yapılanları bu projeye kopyalayalım.	(Controller,Data,Migrations,Models,ProjectItems,Views,appsettings.json,Program.cs)
+		. Projenin tümünün uyumlu olabilmesi için gerekli Namespace,Assembly ayarlamaları(eTickets olocak şekilde)
+		. EF paketlerini yükleyelim. Copy sırasında gelmiyor o yüzden
+
+	-16. Controllerların oluşturulması
+		(Herbir controller VT ile ilişkili olacağından context yapısını controller üzerine tanımlayalım.(injecting)
+		
+		ActorsController
+		ProducersController
+		CinemasController
+		MoviesController
+
+	-17. Controller lara bağlı şekilde ilk olarak Index View'ların oluşturulması.
+		Index view lar yapılacak olan VT üzerindeki ilgili tablolardan verileri çekip göstermek olacak.
+			! Viewlar oluşturulurken bazı hazır templateler var.Bunlardan yararlanabiliriz
+
+		Views\Actors\Index.cshtml
+		Views\Producers\Index.cshtml
+		Views\Cinemas\Index.cshtml
+		Views\Movies\Index.cshtml
+
+		Actors,Producers,Cinemas viewlarında Bootstrap yapısına göre değişiklikler. 
+
+		+ Views\Actors\Index.cshtml
+		+ Views\Producers\Index.cshtml
+		+ Views\Cinemas\Index.cshtml
+		- Views\Movies\Index.cshtml
+			Movie view için liste yapısı yerine Bootstrap yapısına göre düzenleme yapılacak. Bu yapıda "CardViews" yapısı kullanılacak. (Bootstrap Card yapısı)(Bazı yerlerde actionlar daha sonra doldurulmak için boş bırakıldı)
+
+		17.1. Bootstrap yapısına göre düzenlemeler yapılırken ekranda görülecek text bilgileri kendimize göre düzenleyebiliriz. (Default olarak modellerdeki Field Name leri getiriyor. Bunları kendimize göre düzenleyebiliriz) Bunun için ilgili modelimize gidip ayarlamaları orada yapmamız gerekiyor.
+
+		Model\Actor.cs
+		Model\Producer.cs
+		Model\Cinema.cs
+		Model\Movie.cs
+
+	-18. Şu ana kadar yapmış olduklarımıza manuel olarak eriştik. Artık bir menü yapısı geliştirelim. Bu menü yapısı için _Layout.cshtml üzerinde bazı değişiklikler yapacağız.
+
+	-19. Uygulamanın da giriş noktasını uygulama calıştığına ilk olarak Movies sayfanın gelmesini sağlayalım. Bunu yapabileceğimiz yer Program.cs giriş noktamız.
+
+--------------------------------------------------------------------------------------
+Step03 - Verilerle Çalışmak 27.5
+
+	Not : 
+		. Solution içinde Step03 isimli yeni proje açalım.
+		. Step02 içindeki yapılanları bu projeye kopyalayalım.	(Controller,Data,Migrations,Models,ProjectItems,Views,appsettings.json,Program.cs)
+		. Projenin tümünün uyumlu olabilmesi için gerekli Namespace,Assembly ayarlamaları(eTickets olcak şekilde)
+		. EF paketlerini yükleyelim. Copy sırasında gelmiyor o yüzden
+
+	Normalde veri alışverişlerinin genelde controllerlar üzerinden yapıldığı durumlar vardır. Ama bazı durumlarda bu pek efektif bir yaklaşım olmayabilir. (Özellikle birbire çok benzeyen metot yapıları VT haberleşmeleri açısından) Bunun yerine bunları birleştirecek şekilde "Service" türü yapılara yönelmek daha doğru bir seçenek olacaktır. (Olayları geriye daha derin bölgelere almak ve ortaklaştırmak(metot,işlemler...))
+
+	İlgili verilerle çalışmaya başlamadan önce gerekli herbir model için bir service interface i yaratmak ile işe başlayabiliriz. Bunu da ilgili controller a enjecte ederek veri alış verişlerini sağlayabiliriz.
+
+	Hazırlık olması açısından gerekli olacak dizin yapısını oluşturalım;
+		. Data\Inferfaces (Interface tanımları için)
+		. Data\Services (Service tanımları için)
+
+	* Actor verileriyle çalışmak
+	----------------------------
+
+	-20. İlgili dizinde IActorsService.cs interface'ini oluşturalım. Burada;
+			. GetAll (Tüm kayıtları getiren metot)
+			. GetById (Id bilgisine göre istenen kayıdı getirecek)
+			. Add
+			. Update
+			. Delete metot imzalarını tanımlayalım.
+
+	-21. İlgili dizinde ActorsService.cs classını Interfaceden implemente edelim. İşlemleri yapabilmemiz için de ayrıca DbContext yapısını yerleştirelim. Ve metotları yazalım
+
+	-22. ActorsController a giderek içerdiği AppDbContext yapısının yerine IActorsService yapısını enjekte edelim.
+
+		Test edelim. Bir hata mesajı ile karşılaşacağız. Nedeni yaptığın service i bana tanıtman lazım diyor. ben tanıyamadım diyor.
+
+		Program.cs altına gidip bununla ilişkili düzenlemeleri yapacağız.
+
+	-23. Şu ana kadar yapılan işlemler senkronize işlemler. Yani genel olarak uygulamalarda başlatılan işler birbirlerinin bitmesini bekler. Bu yüzden genelde bu tür işlemler için asenkron(paralel tasking) yapı kullanılır. Bir iş diğer bir işin bitmesini beklemez.Aynı zaman diliminde hepsi birden çalışır.
+
+		Bu senkron yapıyı asenkron yapıya çevirelim.
+		IActorsService
+		Ardından ActorsService e implamente etmeyi atlamıyalım.
+
+		Bu arada Task işleminin asenkron olduğunu belirmek için de metot tanımlarını tekrar adlandıralım(Async). ve Actors Controller'da da buna uygun değişiklikleri yapalım.
+
+		Test edelim. Program Service tanımlarının yapılmadığına ilişkin bir hata verecektir. Program.cs altına giderek bu tanımları yapalım.
+
+	-24. Actor verilerine kayıt eklemek için Actors\Create yolu izliyerek gerekli ekrana geliyoruz.		Actor verilerine bir kayıt ekleyebilmek için Create View Oluşturalım.Öncesinde metodunu yazalım.(ActorsController)
+
+	-25. Actor\Index View Aktor listesini getiriyor. Create tarafına daha rahat ulasabilmek için bir Create butonu yerleştirelim(Create View). Actor Controller altındaki [HttpPost] Create kısmına yönlendirelim. Test edelim.
+
+	-26. Actor bilgilerinin detayını görebileceğim Metotu ve View(Details View) ı hazırlayalım. Actors/Index altında da Details butonunun ayarlamalarını yapalım.
+		Ardından Details View ı biraz bootstrap ile düzenleyelim. Index sayfasından da gerekli linkleri tanımlayarak eriştik.
+
+	-27. Actor bilgilerinin düzenleneceği Edit metodu ve View(Edit View) hazırlanması. Edit View dan gelen bilgilerin VT tarafına gönderilmesi.
+		Test.
+
+	-28. Actor bilgilerinin silineceği Delete metodu ve View (Delete View) hazırlanması.
+
+	- 29. NotFound View hazırlanması (Shared)
