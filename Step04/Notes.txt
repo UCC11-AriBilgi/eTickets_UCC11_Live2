@@ -170,3 +170,103 @@ Step03 - Verilerle Çalışmak 27.5
 	-28. Actor bilgilerinin silineceği Delete metodu ve View (Delete View) hazırlanması.
 
 	-29. NotFound View hazırlanması (Shared)
+
+--------------------------------------------------------------------------------------
+Step04 - Base Repository yapısının yerleştirilmesi
+
+	Not : 
+		. Solution içinde Step04 isimli yeni proje açalım.
+		. Step03 içindeki yapılanları bu projeye kopyalayalım.	(Controller,Data,Migrations,Models,ProjectItems,Views,appsettings.json,Program.cs)
+		. Projenin tümünün uyumlu olabilmesi için gerekli Namespace,Assembly ayarlamaları(eTickets olcak şekilde)
+		. EF paketlerini yükleyelim. Copy sırasında gelmiyor o yüzden
+
+		Şu ana kadar Actor verileri üzerinde List/Add/Update/Delete işlemlerini gerçekleştirdik. Bunları yaparken de Interface ve Service yapılarını kullandık. Bundan sonra ilerleyen kısımlarda aynı çalışmaları Cinema,Producer,Movie modelleri için de yapmamız gerekiyor. Fakat bu durum herbir bölümde herbirinin aynı veya benzer durumları için aynı kod bloklarının tekrarını gerektirecektir. Bu da birazcık "kod kirliliği" dediğimiz duruma neden olacaktır. Bu yüzdendir ki bu işlemleri tekrar tekrar yapmak yerine bir base repository yapısı oluşturarak bu işlemleri bir kerede yaparak diğer modeller içinde kullanabilir duruma getirebiliriz. (Generic duruma getirmek)
+
+		Bunun için bir "BaseRepository(Taban Depo)" yapısı kurmak iyi bir seçenektir. 
+
+		Öncelikle bir BaseRepository Interface'i ana fonksiyonlar için Base implementasyonları yaratalım.
+
+		Hazırlık olması açısından da Data\Base dizini yaratalım. Burada tanımlanacak yapıda her bir modelin ortak alanı olan Id bilgisini tekbir yerde toplamış olacağız.
+
+	-30. Data\Base altında IEntityBase.cs isminde bir interface yaratalım.
+
+	-31. Ardından Data\Base altında IEntityBaseRepository.cs interface'ini de oluşturalım. Bunun içersine Generic yapıyı sağlayacağımız tüm metotları toplayalım.
+
+		Generic : Generic type sayesinde, farklı veri tipleri için aynı kod bloğunu tekrar tekrar yazmamıza gerek kalmaz. Bu sayede daha temiz, okunaklı ve yenide kullanılabilir bir yapı sağlamış oluruz. Generic type kullanarak bir sınıf veya metot oluşturduğumuzda , bu sınıf veya metodun hangi veri tipleriyle kullanılabileceğini belirleyebiliriz. Böylece aynı sınıf metot farklı veri tipleriyle kullanılabilir durumu gelecektir.
+
+	-32. Data\Base\EntityBaseRepository.cs classını yaratım IEntityBaseRepositor interface inden implement edelim
+
+	-33. VT Context yapısını EntityBaseRepository.cs üzerine uygulayalım.(AppDbContext)
+
+	-34. Önceden ActorsService içinde yapmış olduğumuz metotları buraya(merkez yapıya - EntityBaseRepository.cs) taşıyalım. Yeni yapıya göre değişiklikleri uygulayalım.
+
+	-35. Aslında daha önce yapmış olduğumuz ActorsService olayı kaldırılmayacak. Bu yeni yapıya göre düzenlenecek.
+		IActorsService üzerine gelip yapılan tüm şeyleri kaldırabiliriz. Ama bu servisi ana yapıdan yararlanacağını söyleyerek. Ve Actor modelinde de ufak değişiklik yapalım.(IEntityBase)
+
+		Test edelim. Gördük ki önceki yapıda çalışan yerler artık merkezi ortak kısımdan çalışıyor.
+
+	Actor için uyarladığımız yapıyı artık yavaş yavaş geri kalan (Producer,Cinema,Movie) kısımlara da uyarlamaya başlayabiliriz.
+
+	-36. Producer kısmı
+
+		36.1 Yeni yapıya göre IProducersService interfacei, ProducersService  yaratılması ve bunların uyarlanması. Bunu yaparken Producer modeli üzerinde de gerekli değişikliğin yapılması. Ve bu yapılan değişikliklerin(yeni servis yani) Program.cs altına Register edilmesi ki kullanılabilsin. Diğer taraftan ilgi ProducersController üzerinde de düzenleme yapılması gerekiyor. Listing Test..ok
+
+		36.2 Aynı durumu Add,Update,Delete için yapılacak
+
+		36.3 Şu an için manuel olarak gerekli Create View larına ulaşabiliyoruz. Bunu bir buton yapısı haline çevirelim. Ve bunu PartialView mantığı ile kullanalım.
+
+			Views\Shared altına küçük bir view oluşturalım (_CreateItem.cshtml) ve Actors,Producers Viewlarına uygulayalım..Create test..ok
+
+		36.4 Details..
+
+		36.5 Update ..
+
+		36.6 Delete ..
+
+	-37. Cinema kısmı
+
+		37.1 Yeni yapıya göre ICinemassService interfacei, CinemasService  yaratılması ve bunların uyarlanması. Bunu yaparken Cinema modeli üzerinde de gerekli değişikliğin yapılması. Ve bu yapılan değişikliklerin(yeni servis yani) Program.cs altına Register edilmesi ki kullanılabilsin. Diğer taraftan ilgi CinemasController üzerinde de düzenleme yapılması gerekiyor. Listing Test..
+
+		37.2 Aynı durumu Add,Update,Delete için yapılacak
+
+		37.3 Şu an için manuel olarak gerekli Create View larına ulaşabiliyoruz. Bunu bir buton yapısı haline çevirelim. Ve bunu PartialView mantığı ile kullanalım.
+
+			Views\Shared altına küçük bir view oluşturalım (_CreateItem.cshtml) ve Actors,Producers Viewlarına uygulayalım..Create test..ok
+
+		37.4 Details..
+
+		37.5 Update ..
+
+		37.6 Delete ..
+
+	-38. Movie Kısmı
+		
+		Movie yapısı diğer modellerin (Actor,Cinema,Producer) yapısından biraz farklı. Diğer modeller ile ilişkilendirmeler var. Bu yüzden de biraz farklı olacak şeyler yapılmalı. Tabii ki yine geri planda Service yapısını haliyle kullanacak.
+
+		38.1 Interface ve Service classlarının oluşturulması (Data\Interfaces\IMoviesService, Data\Services\MoviesServices)
+			MoviesController üzerinde _context yapısını _service yapısını kullanacak şekilde değiştirelim.Neden çünkü tüm db işlemleri servicelere çekildi. 
+
+			Test...Index sayfası gelmedi.Şu ana kadar kullanmış olduğumuz yapı Movie modeline yetmedi. Dolayısı ile hata verdi. Çünkü Controllerdan GetAllAsync metodu ile almak istedik ama movie modelindeki ilişkilendirmelerden dolayı GetAllAysync buna cevap veremedi. Bu duruma göre bazı düzenlemeler yapmak gerekiyor.
+
+
+		38.2 Bu servis yapısını Program.cs altına register edelim.
+
+		Not : Movie modeli diğerlerinden biraz farklı olduğu için programlamada bize kolaylık sağlaması açısından bu tür bir durum için kendi modelimizi oluşturmamız daha kullanışlı olacaktır. Bunları VM (ViewModel) olarak görebilirsiniz. Biz bu durumda kendi VM yapımızı oluşturalım.(\ViewModels) Bunun yanında viewlar içinde dropdown olarak gözükecek actor,cinemaiproducer gibi bilgilerin yerleştirileceği dropdown yapılarının da ayrı bir şekilde hazırlanmasını gerçekleştirelim.
+
+		38.3 Movie/Details kısmı
+
+			Öncelikle MoviesController üzerinde Details metodunu yaratalım.
+			Details View oluşturuldu
+
+		38.4 Movie/Create kısmı
+			Öncelikle MoviesController üzerinde Create(Get) metodunu yaratalım.
+			Sonrasında MoviesController üzerinde Create(Post) metodunu yaratalım.
+			Gerekli kontrolleri yaptıktan sonra test...(Ok)
+
+		38.5 Movie/Edit kısmı
+			Öncelikle MoviesController üzerinde Edit(Get) metodunu yaratalım.
+			Sonrasında MoviesController üzerinde Edit(Post) metodunu yaratalım.
+			Gerekli kontrolleri yaptıktan sonra test...(Ok)
+
+		38.6 İlk gelen ekranda bir arama kutusu yerleştirelim. Yani girilecek olan bilgilere göre VT üzerinde arama işlemini yapacak bir durum.
+			Öncelikle _Layout.cshtml üzerinde ilgili değişiklikleri yapalım. Bir arama kutusu konuldu. Arama yapılacak (Movie name, description üzerinde olacak şekilde) kelimeler bu kutucuğa girilecek ve controller üzerinde arama metodu çalışacak ve ilgili sonuçları getirecek şekilde.

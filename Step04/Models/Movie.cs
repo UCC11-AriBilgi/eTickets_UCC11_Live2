@@ -1,10 +1,11 @@
-﻿using eTickets.Data.Enums;
+﻿using eTickets.Data.Base;
+using eTickets.Data.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace eTickets.Models
 {
-    public class Movie
+    public class Movie : IEntityBase
     {
         [Key]
         public int Id { get; set; }
@@ -28,7 +29,7 @@ namespace eTickets.Models
         public DateTime EndDate { get; set; }
 
         [Display(Name = "Category")]
-        public MovieCategory? MovieCategory { get; set; } // Burayı besleyecek yer MovieCategory enum'ı
+        public MovieCategory MovieCategory { get; set; } // Burayı besleyecek yer MovieCategory enum'ı
 
         // Relations
         // Many-to-Many

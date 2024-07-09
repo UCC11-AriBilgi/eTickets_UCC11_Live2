@@ -1,15 +1,17 @@
-﻿using eTickets.Data.Interfaces;
+﻿using eTickets.Data.Base;
+using eTickets.Data.Interfaces;
 using eTickets.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace eTickets.Data.Services
 {
-    public class ActorsService : IActorsService
+    //public class ActorsService : IActorsService
+    public class ActorsService : EntityBaseRepository<Actor>,IActorsService
     {
-        private readonly AppDbContext _context;
-        public ActorsService(AppDbContext context) 
+        //private readonly AppDbContext _context;
+        public ActorsService(AppDbContext context) : base(context)
         {
-            _context = context;
+            //_context = context;
         }
 
         // 21
@@ -25,11 +27,11 @@ namespace eTickets.Data.Services
         //    return actor;
         //}
 
-       //public void Add(Actor actor)
-       // {
-       //     _context.Actors.Add(actor);
-       //     _context.SaveChanges(); // lazım ki değişiklikler VT ye yerleşsin
-       // }
+        //public void Add(Actor actor)
+        // {
+        //     _context.Actors.Add(actor);
+        //     _context.SaveChanges(); // lazım ki değişiklikler VT ye yerleşsin
+        // }
 
         //public Actor Update(int id, Actor actor)
         //{
@@ -49,44 +51,43 @@ namespace eTickets.Data.Services
         //    _context.SaveChanges();
         //}
 
+        //35
+        //public async Task<IEnumerable<Actor>> GetAllAsync()
+        //{
+        //    var actors = await _context.Actors.ToListAsync();
 
-        //23
-        public async Task<IEnumerable<Actor>> GetAllAsync()
-        {
-            var actors = await _context.Actors.ToListAsync();
+        //    return actors;
+        //}
 
-            return actors;
-        }
+        //public async Task<Actor> GetByIdAsync(int id)
+        //{
+        //    var actor = await _context.Actors.FirstOrDefaultAsync(a => a.Id == id);
 
-        public async Task<Actor> GetByIdAsync(int id)
-        {
-            var actor = await _context.Actors.FirstOrDefaultAsync(a => a.Id == id);
+        //    return actor;
+        //}
 
-            return actor;
-        }
+        //public async Task AddAsync(Actor actor)
+        //{
+        //    _context.Actors.AddAsync(actor);
+        //    _context.SaveChangesAsync(); // lazım ki değişiklikler VT ye yerleşsin
+        //}
 
-        public async Task AddAsync(Actor actor)
-        {
-            await _context.Actors.AddAsync(actor);
-            await _context.SaveChangesAsync(); // lazım ki değişiklikler VT ye yerleşsin
-        }
+        //public async Task<Actor> UpdateAsync(int id, Actor actor)
+        //{
+        //    _context.Update(actor);
 
-        public async Task<Actor> UpdateAsync(int id, Actor actor)
-        {
-            _context.Update(actor);
+        //    await _context.SaveChangesAsync();
 
-            await _context.SaveChangesAsync();
+        //    return actor;
+        //}
 
-            return actor;
-        }
+        //public async Task DeleteAsync(int id)
+        //{
+        //    var result = await _context.Actors.FirstOrDefaultAsync(a => a.Id == id);
 
-        public async Task DeleteAsync(int id)
-        {
-            var result = await _context.Actors.FirstOrDefaultAsync(a => a.Id == id);
+        //    _context.Actors.Remove(result);
 
-            _context.Actors.Remove(result);
-
-            await _context.SaveChangesAsync();
-        }
+        //    await _context.SaveChangesAsync();
+        //}
     }
 }
