@@ -1,3 +1,6 @@
+﻿using eTickets.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace Step01
 {
     public class Program
@@ -8,6 +11,13 @@ namespace Step01
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            // 7
+            //builder.Services.AddDbContext<AppDbContext>();
+            // 10
+            // appsettings.json dosyası içinde bulunan Connection Stringi öğreniyor.
+            builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer           (builder.Configuration.GetConnectionString("Conn")));
+
 
             var app = builder.Build();
 
@@ -29,6 +39,10 @@ namespace Step01
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
+            // 15
+            AppDbInitializer.Seed(app);
 
             app.Run();
         }
