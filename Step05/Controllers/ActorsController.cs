@@ -2,12 +2,20 @@
 using eTickets.Data.Interfaces;
 using eTickets.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using eTickets.Data.Static;
 
 namespace eTickets.Controllers
 {
+    // 51
+    [Authorize(Roles = UserRoles.Admin)] // Sadece Admin haklarına sahip olan kullanıcılar için
+
     public class ActorsController : Controller // Controller sınıfından  inherit
     {
+
+
+
         // 16 - injecting
         //private readonly AppDbContext _context;
 
@@ -32,6 +40,7 @@ namespace eTickets.Controllers
         //    return View(actorData);
         //}
 
+        [AllowAnonymous]
         // 22
         public async Task<IActionResult> Index()
         {
