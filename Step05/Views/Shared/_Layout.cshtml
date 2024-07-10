@@ -26,7 +26,7 @@
                         </li>
                         @* Dropdown şeklinde menü adımları containerı*@
                         @* Yetkilendirmeye bağlı olarak bu bölgenin görünür/görünmezlik ayarlaması *@
-
+                        @* 50 *@
                         @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                         {
                             <li class="nav-item dropdown">
@@ -49,7 +49,6 @@
                             <input name="searchString" type="text" class="form-control" placeholder="Arama kelimesini giriniz..." aria-label="Recipient's Name" aria-describedby="button-addon2" />
                             <span style="padding:5px"></span>
                             <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button>
-
                         </form>
 
                         @* 48 *@

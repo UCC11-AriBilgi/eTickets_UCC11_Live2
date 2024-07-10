@@ -310,3 +310,22 @@ Step05 - Authentication ve Authorization(AA) yapısının entegre edilmesi
 
 		-49. Öncelikle bir kullanıcı kayıt etmek için AccountController üzerinde gerekli metodumuzu yazalım
 			Register test..
+
+		-49.1 Kullanıcının sistemden çıkması için gerekli metodu (Logout) AccountController altına yazalım
+
+		-50. Sisteme giren kullanıcının yetki durumuna göre ekranda(_Layout.cshtml) bazı düzenlemeler. Yani kullanıcı yetkisinde sisteme giren Management kısmını görmesin. Sadece Admin yetkisi olan kullanıcı görsün. Dolayısı ile düzenlemeyi _Layout.cshtml üzerinde yapacağız.
+
+		-50.1 Aynı şekilde normal kullanıcının Movie Edit butonunu da görmemesi lazım. Movie/Index.cshtml
+
+		-51. Diğer taraftan kullanıcının manuel olarak Actors,Producers,Movies,Cinemas gibi rotalara gitmesi durumunda şu an için bazı gerekli ayarlamalar/kontroller henüz olmadığı için Edit/Add gibi butonları görebilmekte. Bunların normal kullanıcı için görünmez olması lazım. Bu durumda yetkilendirme işlemini biraz genişletmek gerekiyor. İlgili controllerlar üzerinden giriş yapmamış kullanıcıların erişimini engelleyecek şekilde düzenlemeler yapmamız gerekiyor. Bunun için bir "middleware(orta katman)" yapısı şeklinde olan [Authorize] attribute unu kullanmak gerekiyor.
+		
+			AccountController [AllowAnonymus]
+			ActorsController --> [Authorize]
+			CinemasController --> [Authorize]
+			ProducersController --> [Authorize]
+			MoviesController --> [Authorize]
+
+			Tabii bu değişikliklerden sonra Index.cshtml ler üzerinde de bazı kontrolleri yapmamız gerekecek.
+			Actors\Index.cshtml
+			Cinemas\Index.cshtml
+			Producers\Index.cshtml

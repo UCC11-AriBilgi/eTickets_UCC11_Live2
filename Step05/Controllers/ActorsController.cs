@@ -13,9 +13,6 @@ namespace eTickets.Controllers
 
     public class ActorsController : Controller // Controller sınıfından  inherit
     {
-
-
-
         // 16 - injecting
         //private readonly AppDbContext _context;
 

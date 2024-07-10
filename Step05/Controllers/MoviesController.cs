@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 namespace eTickets.Controllers
 {
     // 51
-    //[Authorize(Roles = UserRoles.Admin)] // Sadece Admin haklarına sahip olan kullanıcılar için
+    [Authorize(Roles = UserRoles.Admin)] // Sadece Admin haklarına sahip olan kullanıcılar için
     public class MoviesController : Controller
     {
         // injecting
