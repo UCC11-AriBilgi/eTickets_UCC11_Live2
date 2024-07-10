@@ -365,3 +365,6 @@ Step06 - Sepet(Cart) yapısının entegre edilmesi
 			PM> update-database 04_ShoppingCartItems_Added
 
 		-57. Data\Cart dizini yaratalım. Bununda altına ShoppingCart.cs classını yaratalım. Bu classın amacı Cart içindeki bilgilere ulaşmak için olacak.
+			Düzenlemeye başlayalım
+				GetShoppingCartItems
+				GetShoppingCartTotal metotlarını ekleyelim.

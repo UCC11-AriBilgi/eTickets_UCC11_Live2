@@ -32,5 +32,27 @@ namespace eTickets.Data.Cart
 
         }
 
+        // 57
+        public List<ShoppingCartItem> GetShoppingCartItems()
+        {
+            // ?? -- isnull
+            return ShoppingCartItems ?? (ShoppingCartItems = _context.ShoppingCartItems
+                .Where(c => c.ShoppingCartId == ShoppingCartId)
+                .Include(s => s.Movie)
+                .ToList()
+                );
+        }
+
+        public double GetShoppingCartTotal()
+        {
+            var total = _context.ShoppingCartItems
+                .Where(c => c.ShoppingCartId == ShoppingCartId)
+                .Select(c => c.Movie.Price * c.Amount)
+                .Sum();
+
+            return total;
+        }
+
+
     }
 }
