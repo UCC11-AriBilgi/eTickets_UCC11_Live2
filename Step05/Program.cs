@@ -1,6 +1,9 @@
 ﻿using eTickets.Data;
 using eTickets.Data.Interfaces;
 using eTickets.Data.Services;
+using eTickets.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Step01
@@ -20,13 +23,21 @@ namespace Step01
             // appsettings.json dosyası içinde bulunan Connection Stringi öğreniyor.
             builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer           (builder.Configuration.GetConnectionString("Conn")));
 
+            // 22.
             // Service Configuration
             builder.Services.AddScoped<IActorsService, ActorsService>(); // 22.
             builder.Services.AddScoped<IProducersService, ProducersService>(); // 36.1
             builder.Services.AddScoped<ICinemasService, CinemasService>(); // 37.1      
             builder.Services.AddScoped<IMoviesService, MoviesService>(); //38.1
 
-
+            // Authentication and Authorization Services
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
+            builder.Services.AddMemoryCache();
+            builder.Services.AddSession();
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            });
 
             var app = builder.Build();
 
@@ -43,7 +54,9 @@ namespace Step01
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            // 43
+            app.UseAuthorization(); // Kimlik doğrulama
+            app.UseAuthorization(); // Yetkilendirme
 
             //app.MapControllerRoute(
             //    name: "default",
@@ -56,6 +69,8 @@ namespace Step01
 
             // 15
             AppDbInitializer.Seed(app);
+            // 42 Seed User and Roles
+            AppDbInitializer.SeedUsersAndRolesAsync(app).Wait(); // await
 
             app.Run();
         }
