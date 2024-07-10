@@ -329,3 +329,39 @@ Step05 - Authentication ve Authorization(AA) yapısının entegre edilmesi
 			Actors\Index.cshtml
 			Cinemas\Index.cshtml
 			Producers\Index.cshtml
+
+--------------------------------------------------------------------------------------
+Step06 - Sepet(Cart) yapısının entegre edilmesi
+
+		Not : 
+			. Solution içinde Step06 isimli yeni proje açalım.
+			. Step05 içindeki yapılanları bu projeye kopyalayalım.	(Controller,Data,Migrations,Models,ProjectItems,Views,appsettings.json,Program.cs)
+			. Projenin tümünün uyumlu olabilmesi için gerekli Namespace,Assembly ayarlamaları(eTickets olcak şekilde)
+			. EF paketlerini yükleyelim. Copy sırasında gelmiyor o yüzden
+
+			Projeye bu yapının entegre edilebilmesi için IdentityFramework kütüphanesinin tanıtılması gerekiyor. Böylelikle sistem üzerinde kullanıcılar(Users),yetkiler(Roles),kullanıcı yöneticisi(User Manager),yetki yöneticisi(Role Manager) gibi kavramları da dahil etmiş olacağız.
+
+			Bu işlemleri gerçekleştirebilmemiz için öncelikle Microsoft.AspNetCore.Identity.EntityFrameworkCore paketinin yüklenmesi gerekmekte. Ve diğer paketleri
+			(Nuget PM ile)
+
+			Bu bölümde kullanıcının bir filme bilet satın alması gibi işlemler olacak. Dolayısı ile VT tarafında siparişlerini ve siparişinin detaylarını tutacak tablolar olacak. Bunlar için gerekli modellerimizi oluşturalım.
+
+		-52. Order (Sipariş) modelinin oluşturulması (Models\Order.cs)
+			 OrderItem (Sipariş Kalemleri/Detayları) modelinin oluşturulması (Models\OrderItem.cs)
+
+			Bunların tanımı yapıldıktan sonra bu iki modelin birbirlerine bağlantısının yapılması gerekmekte..(master-detail tablo yapısı)
+
+		-53. Bu yeni model tanımlarını AppDbContext e bildirilmesi gerekiyor ki VT tarafında bir tabloya dönüşebilsinler.
+
+		-54. Bir migration oluşturarak VT tarafına uygulayalım
+				PM> add-migration 03_Order_OrderItems
+				PM> update-database 03_Order_OrderItems --> VT tarafına aktarım sağlanmış oldu
+
+		-55. Sepet içerikleriyle ilgili olacak bir class yaratalım
+			Models\ShoppingCartItem.cs
+
+		-56. ShoppingCartItem modelini AppDbContext e ekleyelim. Ve bunu eklediğimiz için yine bir migration yaratalım.
+			PM> add-migration 04_ShoppingCartItems_Added
+			PM> update-database 04_ShoppingCartItems_Added
+
+		-57. Data\Cart dizini yaratalım. Bununda altına ShoppingCart.cs classını yaratalım. Bu classın amacı Cart içindeki bilgilere ulaşmak için olacak.

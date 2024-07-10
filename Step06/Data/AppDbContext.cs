@@ -56,6 +56,13 @@ namespace eTickets.Data
     // Models <--> VT
         public DbSet<eTickets.ViewModels.NewMovieVM> NewMovieVM { get; set; } = default!;
 
+        // 53
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; } 
+
+        // 55
+        public DbSet<ShoppingCartItem> ShoppingCartItems { get; set;}
+
 
     }
 }
