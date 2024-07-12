@@ -29,6 +29,8 @@ namespace Step01
             builder.Services.AddScoped<IProducersService, ProducersService>(); // 36.1
             builder.Services.AddScoped<ICinemasService, CinemasService>(); // 37.1      
             builder.Services.AddScoped<IMoviesService, MoviesService>(); //38.1
+            builder.Services.AddScoped<IOrdersService, OrdersService>(); // 60
+
 
             // Authentication and Authorization Services
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();

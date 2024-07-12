@@ -372,4 +372,15 @@ Step06 - Sepet(Cart) yapısının entegre edilmesi
 				RemoveItemFromCart metotlarını ekleyelim.
 
 		-58. OrdersController eklenmesi.
-				Burada ayrıca ShoppingCart ile ilgili kendi View Modelimizi oluşturalım.
+
+				Burada ayrıca ShoppingCart ile ilgili kendi View Modelimizi oluşturalım.(ViewModels\ShoppingCartVM.cs)
+
+				Bu controllerda diğerlerinde de olduğu gibi bir service yapısını entegre etmemiz gerekecek
+
+		-59. OrdersService yapısının yaratılması
+			Data\Interfaces\IOrdersService.cs
+			Data\Services\OrdersService.cs
+
+			OrdersService üzerinde gerekli olan diğer tüm metotlar EntityBaseRepository de toplanmış durumda çünkü.
+
+		-60. Bu servicei Program.cs de register yapalım.
