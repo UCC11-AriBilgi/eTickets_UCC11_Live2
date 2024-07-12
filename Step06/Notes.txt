@@ -384,3 +384,6 @@ Step06 - Sepet(Cart) yapısının entegre edilmesi
 			OrdersService üzerinde gerekli olan diğer tüm metotlar EntityBaseRepository de toplanmış durumda çünkü.
 
 		-60. Bu servicei Program.cs de register yapalım.
+
+
+		-61.
