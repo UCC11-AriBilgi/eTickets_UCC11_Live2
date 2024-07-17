@@ -44,6 +44,7 @@ namespace eTickets.Controllers
             return View(moviesData);
         }
 
+        [AllowAnonymous]
         // 38.3
         // Get: Movies/Details/1
         public async Task<IActionResult> Details(int id)
@@ -171,6 +172,7 @@ namespace eTickets.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [AllowAnonymous]
         // 38.6
         public async Task<IActionResult> Filter(string searchString)
         {

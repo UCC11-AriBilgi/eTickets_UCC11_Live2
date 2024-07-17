@@ -385,5 +385,12 @@ Step06 - Sepet(Cart) yapısının entegre edilmesi
 
 		-60. Bu servicei Program.cs de register yapalım.
 
+		Test edelim
 
-		-61.
+		- İlk gelen ekranda Add butonu(Movie ekleyen) gözüküyor. Bunun ilk gelişte kapalı olması lazım. Bunun i.in _CreateItem Partial View da A&A düzenlemeleri yapalım ki görüntüden kalksın.(+)
+
+		- Giren kullanucı Details butonuna bastığında hata mesajı alınıyor(AccessDenied..) ??
+
+		-61. Hello kısmının altına siparişlerle ilgili bir liste almak için gerekli eklemeler
+
+		ShoppingCartVM--

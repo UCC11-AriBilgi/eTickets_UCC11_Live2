@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity;
+@using eTickets.Models
 @inject UserManager<ApplicationUser> UserManager;
 
 @if (!User.Identity.IsAuthenticated)
@@ -17,11 +18,30 @@
 }
 else
 {
+    @* Eğer kullanı Authenticate olmuşsa *@
     <div class="dropdown">
         <span style="padding:5px"></span>
-        <button class="btn btn-outline-success dropdown-toggle" type="button" id="profile-btn" data-toggle="dropdown" aeia-expanded="false">
-            <i class="bi bi-person-badge"></i> Hello @UserManager.GetUserName(User)
+        <button class="btn btn-outline-success dropdown-toggle" type="button" id="profile-btn" data-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-person-badge"></i> Merhaba @UserManager.GetUserName(User)
         </button>
+        @* 61 *@
+        @* Siparişler görebileceğim kısım *@
+        <ul class="dropdown-menu" aria-labelledby="profile-btn">
+            <li>
+                <a class="dropdown-item" asp-controller="Orders" asp-action="Index">
+                    <i class="bi bi-list"></i> Orders
+                </a>
+            </li>
+            @* Sadece Admin tarafı için *@
+            @if (User.IsInRole("Admin"))
+            {
+                <li>
+                    <a class="dropdown-item" asp-controller="Account" asp-action="Users">
+                        <i class="bi bi-people"></i> Users
+                    </a>
+                </li>
+            }
+        </ul>
     </div>
     <span style="padding:5px"></span>
     <form asp-controller="Account" asp-action="Logout">
@@ -30,7 +50,4 @@ else
         </button>
 
     </form>
-
-
-
 }
