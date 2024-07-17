@@ -71,5 +71,23 @@ namespace eTickets.Controllers
 
             return RedirectToAction("ShoppingCart");
         }
+
+        //65
+        public async Task<IActionResult> CompleteOrder()
+        {
+            // ShoppingCart daki itemların neler olduğunu öğreneyim.
+            var items = _shoppingCart.GetShoppingCartItems();
+
+            string userId = "";
+            string userEmailAddress = "";
+
+            // Bunları sipariş servisine gönderelim
+            await _ordersService.StoreOrderAsync(items, userId, userEmailAddress);
+
+            // Şu anki ShoppingCart içeriğini temizle yapalım ki yeni siparişler için boş olsun.
+            await _shoppingCart.ClearShoppingCartAsync();
+
+            return View("OrderCompleted");
+        }
     }
 }

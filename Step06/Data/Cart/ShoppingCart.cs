@@ -103,6 +103,16 @@ namespace eTickets.Data.Cart
 
         }
 
-        // ??
+        // 65
+        public async Task ClearShoppingCartAsync()
+        {
+            var items=await _context.ShoppingCartItems
+                .Where(n=> n.ShoppingCartId==ShoppingCartId)
+                .ToListAsync();
+
+            _context.ShoppingCartItems.RemoveRange(items);
+
+            await _context.SaveChangesAsync(); // ShoppingCart tablo içeriği silindi..
+        }
     }
 }

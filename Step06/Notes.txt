@@ -400,3 +400,6 @@ Step06 - Sepet(Cart) yapısının entegre edilmesi
 		Çalıştırdığımızda Sepete ekleme kısmında hata alıyoruz.
 
 		-64. ShoppingCart ile ilgili servisi Program.cs altına tanımlayalım. Aynı zamanda Seesion yapısını kullandığımız için de ..bunu kullandığımızı belirten tanımlamayı yapmamız gerekiyor.
+
+		-65. ShoppingCart ekranına siparişi bitirme veya yeni film ekleme butonlarını koyalım. Grekli metotları tanımlayalım. OrderCompleted View ını da hazırlayalım.
+
