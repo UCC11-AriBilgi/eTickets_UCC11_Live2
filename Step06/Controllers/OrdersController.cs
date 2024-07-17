@@ -21,14 +21,14 @@ namespace eTickets.Controllers
 
         public async Task<IActionResult> Index()
         {
-            //string userId = "";
-            //string userRole = "";
+            string userId = "";
+            string userRole = "";
 
-            //var orders= await _ordersService.GetAll();//
+            var orders= await _ordersService.GetOrderByUserIdAndRoleAsync(userId,userRole);//
 
 
 
-            return View();
+            return View(orders);
         }
 
         public IActionResult ShoppingCart()
@@ -45,10 +45,31 @@ namespace eTickets.Controllers
             };
 
             return View(response); // ShoppingCart Summary.
+        }
 
+        // 63
+        public async Task<RedirectToActionResult> AddItemToShoppingCart(int id)
+        {
+            var item = await _moviesService.GetMovieByIdAsync(id);
 
+            if (item != null)
+            {
+                _shoppingCart.AddItemToCart(item);
+            }
 
+            return RedirectToAction("ShoppingCart");
+        }
 
+        public async Task<RedirectToActionResult> RemoveItemFromShoppingCart(int id)
+        {
+            var item = await _moviesService.GetMovieByIdAsync(id);
+
+            if (item != null)
+            {
+                _shoppingCart.RemoveItemFromCart(item);
+            }
+
+            return RedirectToAction("ShoppingCart");
         }
     }
 }

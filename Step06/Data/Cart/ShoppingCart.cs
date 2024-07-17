@@ -20,7 +20,7 @@ namespace eTickets.Data.Cart
         public static ShoppingCart GetShoppingCart(IServiceProvider services)
         {
             // Bu tür işlemlerde bellekte kullanımiçin Session dediğimiz bir yapı kullanılır. Onu tanımlayalım/yerleştirelim.
-            ISession session = services.GetRequiredService<IHttpContextAccessor>()?.HttpContext.Session;
+            ISession session = services.GetRequiredService<IHttpContextAccessor>().HttpContext.Session;
 
             var context = services.GetService<AppDbContext>();
 

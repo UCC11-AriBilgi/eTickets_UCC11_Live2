@@ -1,4 +1,5 @@
 ﻿using eTickets.Data;
+using eTickets.Data.Cart;
 using eTickets.Data.Interfaces;
 using eTickets.Data.Services;
 using eTickets.Models;
@@ -31,6 +32,10 @@ namespace Step01
             builder.Services.AddScoped<IMoviesService, MoviesService>(); //38.1
             builder.Services.AddScoped<IOrdersService, OrdersService>(); // 60
 
+            // 64
+            builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            builder.Services.AddScoped(sc => ShoppingCart.GetShoppingCart(sc));
+
 
             // Authentication and Authorization Services
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
@@ -55,6 +60,9 @@ namespace Step01
             app.UseStaticFiles();
 
             app.UseRouting();
+            //64
+            app.UseSession();
+
 
             // 43
             app.UseAuthorization(); // Kimlik doğrulama

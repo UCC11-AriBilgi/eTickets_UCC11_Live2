@@ -389,8 +389,14 @@ Step06 - Sepet(Cart) yapısının entegre edilmesi
 
 		- İlk gelen ekranda Add butonu(Movie ekleyen) gözüküyor. Bunun ilk gelişte kapalı olması lazım. Bunun i.in _CreateItem Partial View da A&A düzenlemeleri yapalım ki görüntüden kalksın.(+)
 
-		- Giren kullanucı Details butonuna bastığında hata mesajı alınıyor(AccessDenied..) ??
+		- Giren kullanıcı Details butonuna bastığında hata mesajı alınıyor(AccessDenied..) ??
 
 		-61. Hello kısmının altına siparişlerle ilgili bir liste almak için gerekli eklemeler
 
-		ShoppingCartVM--
+		-62. Kullanıcının yapmış olduğu alışverişin özetini gösteren bir View(View\Orders\ShoppingCart.cshtml) ekleyelim ve bu view model olarak ShoppingCartVM modelini kullanacak şekilde olsun.
+
+		-63. Orders Controller üzerinde AddItemToShoppingCart ve RemoveItemFromShoppingCart metotlarını yerleştirelim.
+
+		Çalıştırdığımızda Sepete ekleme kısmında hata alıyoruz.
+
+		-64. ShoppingCart ile ilgili servisi Program.cs altına tanımlayalım. Aynı zamanda Seesion yapısını kullandığımız için de ..bunu kullandığımızı belirten tanımlamayı yapmamız gerekiyor.
