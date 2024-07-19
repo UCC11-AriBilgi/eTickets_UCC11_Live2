@@ -405,6 +405,6 @@ Step06 - Sepet(Cart) yapısının entegre edilmesi
 
 			?? Hello bölümü altındaki açılması gereken liste yapısı açılmıyor. Buradan direkt olarak Orders bölümüne gidilebiliyor.
 			
-			?? MovieDetails kısmından Actors,Producers,Cinema ya arişme durumunda AccessDenied mesajıyla karşılaşıyoruz.
+		-66. Admin kullanıcı ile girildiğinde sisteme üye olmuş kullanıcıları gösteren view hazırlanması
 
 

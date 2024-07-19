@@ -135,5 +135,18 @@ namespace eTickets.Controllers
 
             return RedirectToAction("Index","Movies");
         }
+
+        public IActionResult AccessDenied(string returnUrl)
+        {
+            return View();
+        }
+
+        // 66
+        public async Task<IActionResult> Users()
+        {
+            var usersData = await _service.GetAllAsync(); // Artık Service yapısı kullanılıyor.
+
+            return View(actorsData);
+    }
     }
 }
