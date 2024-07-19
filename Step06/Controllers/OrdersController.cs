@@ -2,6 +2,7 @@
 using eTickets.Data.Interfaces;
 using eTickets.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace eTickets.Controllers
 {
@@ -21,8 +22,11 @@ namespace eTickets.Controllers
 
         public async Task<IActionResult> Index()
         {
-            string userId = "";
-            string userRole = "";
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string userRole = User.FindFirstValue(ClaimTypes.Role);
+
+            //string userId = "";
+            //string userRole = "";
 
             var orders= await _ordersService.GetOrderByUserIdAndRoleAsync(userId,userRole);//
 
@@ -78,8 +82,10 @@ namespace eTickets.Controllers
             // ShoppingCart daki itemların neler olduğunu öğreneyim.
             var items = _shoppingCart.GetShoppingCartItems();
 
-            string userId = "";
-            string userEmailAddress = "";
+            //string userId = "";
+            //string userEmailAddress = "";
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            string userEmailAddress = User.FindFirstValue(ClaimTypes.Email);
 
             // Bunları sipariş servisine gönderelim
             await _ordersService.StoreOrderAsync(items, userId, userEmailAddress);
